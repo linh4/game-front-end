@@ -1,36 +1,84 @@
-#square {
+body {
+  background-color: #151425;
+}
+
+.container {
+  margin-top: 150px;
+}
+
+.row-top {
+  display: flex;
+  justify-content: center;
+}
+
+.row-middle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 80px auto;
+  padding: 0 150px;
+}
+
+.row-bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.square {
 	width: 100px;
 	height: 100px;
-	background: red;
+	background: #f05561;
 }
 
 
-#triangle {
+.triangle {
 	width: 0;
 	height: 0;
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
-	border-bottom: 100px solid red;
+	border-bottom: 100px solid #91c13e;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
 }
 
-#circle {
+.circle {
 	width: 100px;
 	height: 100px;
-	background: red;
-	-moz-border-radius: 50px;
-	-webkit-border-radius: 50px;
+	background: #fee851;
 	border-radius: 50px;
 }
 
-#pacman {
-  width: 0px;
-  height: 0px;
-  border-right: 60px solid transparent;
-  border-top: 60px solid red;
-  border-left: 60px solid red;
-  border-bottom: 60px solid red;
-  border-top-left-radius: 60px;
-  border-top-right-radius: 60px;
-  border-bottom-left-radius: 60px;
-  border-bottom-right-radius: 60px;
+.pacman {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  border: 60px solid #51b2e8;
+  border-right-color: transparent;
+  border-radius: 50%;
+}
+
+
+.level {
+  font-size: 3em;
+  color: white;
+}
+
+
+
+.square-active {
+  background-color: red;
+}
+
+.triangle-active {
+  border-bottom: 100px solid green;
+}
+
+.circle-active {
+  background-color: orange;
+}
+
+.pacman-active {
+  border: 60px solid blue;
+  border-right-color: transparent;
 }
