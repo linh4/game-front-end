@@ -4,12 +4,7 @@ const game = {
   gamePattern: [],
   level: 0,
   id: 0,
-  sounds: {
-    square: new Audio('sounds/a.wav'),
-    triangle: new Audio('sounds/b.wav'),
-    circle: new Audio('sounds/c.wav'),
-    pacman: new Audio('sounds/d.wav')
-  }
+  sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav']
 }
 
 const start = document.querySelector('#start');
@@ -20,7 +15,7 @@ start.addEventListener('click', () => {
   game.level++;
   level.innerText = game.level;
   startGame();
-  console.log(game.level);
+  // console.log(game.level);
 })
 
 // game pattern
@@ -29,6 +24,7 @@ function startGame() {
   let i = 0;
   let myInterval = setInterval(function () {
     game.id = game.gamePattern[i];
+    console.log(game.gamePattern);
     let shape = document.getElementById(game.id).className
     // debugger
     console.log(game.id + ' ' + shape);
@@ -51,13 +47,17 @@ function randomNum() {
 function addColor(id, shape) {
   let shapes = document.getElementById(id)
   shapes.classList.add(shape + '-active');
+  addSound(id);
   setTimeout(function () {
     shapes.classList.remove(shape + '-active');
   }, 300)
 }
 
 // assign the audio to shape
-
+function addSound(id) {
+  let sound = new Audio(game.sounds[id]);
+  sound.play();
+}
 
 
 
