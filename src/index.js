@@ -15,7 +15,18 @@ start.addEventListener('click', () => {
   game.level++;
   level.innerText = game.level;
   startGame();
-  // console.log(game.level);
+
+  // user click
+  let clickAll = document.querySelectorAll('.clicked');
+  clickAll.forEach(clickOne => {
+    clickOne.addEventListener('click', (e) => {
+      let id = e.target.id;
+      shape = e.target.className.split(' ')[0];
+      // debugger
+      addColor(id, shape)
+    })
+  })
+
 })
 
 // game pattern
@@ -25,13 +36,12 @@ function startGame() {
   let myInterval = setInterval(function () {
     game.id = game.gamePattern[i];
     console.log(game.gamePattern);
-    let shape = document.getElementById(game.id).className
+    let shape = document.getElementById(game.id).className.split(' ')[0]
     // debugger
     console.log(game.id + ' ' + shape);
     addColor(game.id, shape);
     i++;
     if (i === game.gamePattern.length) {
-      i = 0;
       clearInterval(myInterval)
     }
   }, 500);
@@ -53,10 +63,11 @@ function addColor(id, shape) {
   }, 300)
 }
 
-// assign the audio to shape
+// play audio
 function addSound(id) {
   let sound = new Audio(game.sounds[id]);
   sound.play();
+  sound.volume = 1.0;
 }
 
 
