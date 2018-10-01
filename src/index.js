@@ -22,13 +22,6 @@ start.addEventListener('click', () => {
   game.userPattern = [];
   game.gamePattern = [];
   gameTrack();
-
- // remove event click
-  // document.removeEventListener("click", handleClick, true);
-
-  // add user click
-  // document.addEventListener('click', handleClick)
-
 })
 
 // function handleClick(e){
@@ -72,14 +65,15 @@ function userTrack() {
 // game pattern
 function gameTrack() {
   level.innerText = game.level;
-  if(!game.error) {
+  if (!game.error) {
     randomNum();
   }
-  if(game.error) {
-    randomNum();
+  else {
+    game.error = false;
   }
   let i = 0;
   let myInterval = setInterval(function () {
+    // debugger
     game.id = game.gamePattern[i];
     game.shape = document.getElementById(game.id).classList[0];
     addColor(game.id, game.shape);
