@@ -6,62 +6,76 @@ const game = {
   level: 0,
   id: 0,
   shape: 0,
+  error: false,
   sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
   winnerLevel: 3
 }
 
 const start = document.querySelector('#start');
 const level = document.querySelector('.level')
+level.innerText = 0;
 
 // start the game
 start.addEventListener('click', () => {
+  game.level = 0;
   game.level++;
-  level.innerText = game.level;
+  game.userPattern = [];
+  game.gamePattern = [];
   gameTrack();
-
-  // user click
-  let clickAll = document.querySelectorAll('.clicked');
-  clickAll.forEach(clickOne => {
-    clickOne.addEventListener('click', (e) => {
-      game.id = parseInt(e.target.id);
-      game.shape = e.target.className.split(' ')[0];
-      game.userPattern.push(game.id);
-      console.log(game.id + ' ' + game.shape);
-      addColor(game.id, game.shape)
-
-      // check the same pattern
-      if (!checkSamePattern()) {
-        displayError();
-        game.userPattern = [];
-      }
-
-      // check the end of pattern
-      if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
-        game.level++;
-        level.innerText = game.level;
-        game.userPattern = [];
-        gameTrack();
-      }
-
-      // check winner
-      if (game.userPattern.length === game.winnerLevel) {
-        level.innerText = 'Win';
-      }
-    })
-  })
-
 })
+
+// function handleClick(e){
+document.addEventListener('click', (e) => {
+  if (e.target.classList[1]){
+    game.id = parseInt(e.target.id);
+    game.shape = e.target.classList[0];
+    userTrack();
+    }
+})
+
+// user Pattern
+function userTrack() {
+  game.userPattern.push(game.id);
+  addColor(game.id, game.shape)
+  // check the same pattern
+  // debugger
+  if (!checkSamePattern()) {
+    game.error = true;
+    displayError();
+    game.userPattern = [];
+    gameTrack();
+  }
+
+  // check the end of pattern
+  else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
+    game.level++;
+    game.error = false;
+    game.userPattern = [];
+    gameTrack();
+  }
+
+  // check winner
+  if (game.userPattern.length === game.winnerLevel) {
+    displayWinner();
+    // resetGame();
+  }
+}
+
 
 // game pattern
 function gameTrack() {
-  randomNum();
+  level.innerText = game.level;
+  if (!game.error) {
+    randomNum();
+  }
+  else {
+    game.error = false;
+  }
   let i = 0;
   let myInterval = setInterval(function () {
-    game.id = game.gamePattern[i];
-    console.log(game.gamePattern);
-    game.shape = document.getElementById(game.id).className.split(' ')[0]
     // debugger
-    console.log(game.id + ' ' + game.shape);
+    game.id = game.gamePattern[i];
+    game.shape = document.getElementById(game.id).classList[0];
     addColor(game.id, game.shape);
     i++;
     if (i === game.gamePattern.length) {
@@ -90,7 +104,6 @@ function addColor(id, shape) {
 function addSound(id) {
   let sound = new Audio(game.sounds[id]);
   sound.play();
-  sound.volume = 1.0;
 }
 
 function checkSamePattern() {
@@ -103,12 +116,11 @@ function checkSamePattern() {
 }
 
 function displayError() {
-  console.log('error');
   let count = 0;
   let myError = setInterval(() => {
     level.innerText = '!!!';
     count++;
-    if (count === 3) {
+    if (count === 2) {
       level.innerText = game.level;
       clearInterval(myError);
       game.userPattern = [];
@@ -117,6 +129,16 @@ function displayError() {
   }, 300)
 }
 
+function displayWinner() {
+  level.innerText = 'Win';
+}
+
+// function resetGame() {
+//   game.gamePattern = [];
+//   game.userPattern = [];
+//   game.level = 0;
+//   level.innerText = 0;
+// }
 
 
 })
