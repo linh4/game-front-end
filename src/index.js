@@ -8,7 +8,7 @@ const game = {
   shape: 0,
   error: false,
   sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
-  winnerLevel: 3
+  winnerLevel: 10
 }
 
 const start = document.querySelector('#start');
@@ -81,7 +81,7 @@ function gameTrack() {
     if (i === game.gamePattern.length) {
       clearInterval(myInterval)
     }
-  }, 500);
+  }, 100);
 }
 
 //generate random number for pattern
@@ -97,7 +97,7 @@ function addColor(id, shape) {
   addSound(id);
   setTimeout(function () {
     shapes.classList.remove(shape + '-active');
-  }, 300)
+  }, 100)
 }
 
 // play audio
@@ -126,7 +126,7 @@ function displayError() {
       game.userPattern = [];
       count = 0;
     }
-  }, 300)
+  }, 100)
 }
 
 function displayWinner() {
@@ -140,5 +140,35 @@ function displayWinner() {
 //   level.innerText = 0;
 // }
 
+let time = document.getElementById("timer")
+const timer = function (secs){
+  time.innerHTML = '00: ' + `${secs}`
+  return setInterval(() => {
+    secs -= 1;
+    if (secs < 0) {
+      time.innerHTML = 'Loser!!!'
+      clearInterval(timer)
+    }
+    else {
+      time.innerHTML = '00: ' + `${secs < 10? '0':''}${secs}`
+    }
+  } ,1000)
+}
+
+timer(10)
+
+
+// const timer = function (secs){
+//   console.log(`${secs} seconds left`)
+//   return setInterval(() => {
+//     secs -= 1
+//     if (secs < 0) {
+//       clearInterval(timer)
+//     } else {
+//       console.log(`${secs} seconds left`)
+//     }
+//   } ,1000)
+// }
+// timer(10)
 
 })
