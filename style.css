@@ -87,3 +87,9 @@ body {
   border: 60px solid blue;
   border-right-color: transparent;
 }
+
+#table {
+  width: 40vw;
+  color: #fff;
+  font-size: 2em;
+}

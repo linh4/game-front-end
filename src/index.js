@@ -49,8 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clock.innerText = 'You Lose!'
         let timeOut = setTimeout(() => {
           userForm.style.display = 'block'
-          console.log(game.level);
-          User.getUserName(game.level)
+          Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
       }

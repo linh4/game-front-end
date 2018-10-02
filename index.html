@@ -10,7 +10,6 @@
 <body>
   <div class="container">
     <div class="row">
-
       <div id="name-box" style="display: none">
         <form>
           <label for="name">Name: </label>
@@ -18,6 +17,7 @@
           <input type="submit" value="submit">
         </form>
       </div>
+    </div>
 
       <div class="row-top">
         <div id="0" class="square clicked"></div>
@@ -43,10 +43,18 @@
 
       <button id="btn" type="button" onclick="Adapter.scoreBoard()">Submit</button>
 
+      <table id="table">
+        <tr>
+          <td> # </td>
+          <td>Player Name:</td>
+          <td>Score: </td>
+        </tr>
+      </table>
+
     </div>
   </div>
   <script type="text/javascript" src="src/adapter.js"></script>
-  <script type="text/javascript" src="src/user.js"></script>
+  <script type="text/javascript" src="src/player.js"></script>
   <script type="text/javascript" src="src/index.js"></script>
 
 </body>
