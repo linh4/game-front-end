@@ -13,7 +13,11 @@ const game = {
 
 const start = document.querySelector('#start');
 const level = document.querySelector('.level')
+const clock = document.querySelector("#timer")
 level.innerText = 0;
+let second;
+let interval;
+
 
 // start the game
 start.addEventListener('click', () => {
@@ -21,24 +25,47 @@ start.addEventListener('click', () => {
   game.level++;
   game.userPattern = [];
   game.gamePattern = [];
+  resetTimer();
+  startTimer();
   gameTrack();
+  document.removeEventListener('click', handleClick);
+  document.addEventListener('click', handleClick);
 })
 
-// function handleClick(e){
-document.addEventListener('click', (e) => {
+function startTimer() {
+  interval = setInterval(()=>{
+    second--
+    if (second < 0) {
+      clearInterval(interval);
+      clock.innerText = 'You Lose!'
+    }
+    else {
+      return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
+    }
+  }, 1000);
+}
+
+function resetTimer(){
+      second = 20;
+      clearInterval(interval);
+      clock.innerText = "00: 20";
+  }
+
+function handleClick(e){
+// document.addEventListener('click', (e) => {
   if (e.target.classList[1]){
     game.id = parseInt(e.target.id);
     game.shape = e.target.classList[0];
     userTrack();
     }
-})
+  // })
+}
 
 // user Pattern
 function userTrack() {
   game.userPattern.push(game.id);
   addColor(game.id, game.shape)
   // check the same pattern
-  // debugger
   if (!checkSamePattern()) {
     game.error = true;
     displayError();
@@ -133,42 +160,16 @@ function displayWinner() {
   level.innerText = 'Win';
 }
 
-// function resetGame() {
-//   game.gamePattern = [];
-//   game.userPattern = [];
-//   game.level = 0;
-//   level.innerText = 0;
-// }
-
-let time = document.getElementById("timer")
-const timer = function (secs){
-  time.innerHTML = '00: ' + `${secs}`
-  return setInterval(() => {
-    secs -= 1;
-    if (secs < 0) {
-      time.innerHTML = 'Loser!!!'
-      clearInterval(timer)
-    }
-    else {
-      time.innerHTML = '00: ' + `${secs < 10? '0':''}${secs}`
-    }
-  } ,1000)
+function resetGame() {
+  game.gamePattern = [];
+  game.userPattern = [];
+  game.level = 0;
+  level.innerText = game.level;
+  document.removeEventListener('click', handleClick);
 }
 
-timer(10)
 
 
-// const timer = function (secs){
-//   console.log(`${secs} seconds left`)
-//   return setInterval(() => {
-//     secs -= 1
-//     if (secs < 0) {
-//       clearInterval(timer)
-//     } else {
-//       console.log(`${secs} seconds left`)
-//     }
-//   } ,1000)
-// }
-// timer(10)
+
 
 })
