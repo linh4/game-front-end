@@ -38,6 +38,9 @@ function startTimer() {
     if (second < 0) {
       clearInterval(interval);
       clock.innerText = 'You Lose!'
+      game.level = 0;
+      level.innerText = 0;
+      document.removeEventListener('click', handleClick);
     }
     else {
       return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
@@ -46,19 +49,17 @@ function startTimer() {
 }
 
 function resetTimer(){
-      second = 20;
+      second = 99;
       clearInterval(interval);
-      clock.innerText = "00: 20";
+      clock.innerText = "00: 99";
   }
 
 function handleClick(e){
-// document.addEventListener('click', (e) => {
   if (e.target.classList[1]){
     game.id = parseInt(e.target.id);
     game.shape = e.target.classList[0];
     userTrack();
     }
-  // })
 }
 
 // user Pattern
