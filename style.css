@@ -63,7 +63,8 @@ body {
 }
 
 
-.level {
+.level,
+#timer {
   font-size: 3em;
   color: white;
 }

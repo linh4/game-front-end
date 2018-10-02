@@ -8,12 +8,16 @@ const game = {
   shape: 0,
   error: false,
   sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
-  winnerLevel: 3
+  winnerLevel: 10
 }
 
 const start = document.querySelector('#start');
 const level = document.querySelector('.level')
+const clock = document.querySelector("#timer")
 level.innerText = 0;
+let second;
+let interval;
+
 
 // start the game
 start.addEventListener('click', () => {
@@ -21,24 +25,47 @@ start.addEventListener('click', () => {
   game.level++;
   game.userPattern = [];
   game.gamePattern = [];
+  resetTimer();
+  startTimer();
   gameTrack();
+  document.removeEventListener('click', handleClick);
+  document.addEventListener('click', handleClick);
 })
 
-// function handleClick(e){
-document.addEventListener('click', (e) => {
+function startTimer() {
+  interval = setInterval(()=>{
+    second--
+    if (second < 0) {
+      clearInterval(interval);
+      clock.innerText = 'You Lose!'
+    }
+    else {
+      return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
+    }
+  }, 1000);
+}
+
+function resetTimer(){
+      second = 20;
+      clearInterval(interval);
+      clock.innerText = "00: 20";
+  }
+
+function handleClick(e){
+// document.addEventListener('click', (e) => {
   if (e.target.classList[1]){
     game.id = parseInt(e.target.id);
     game.shape = e.target.classList[0];
     userTrack();
     }
-})
+  // })
+}
 
 // user Pattern
 function userTrack() {
   game.userPattern.push(game.id);
   addColor(game.id, game.shape)
   // check the same pattern
-  // debugger
   if (!checkSamePattern()) {
     game.error = true;
     displayError();
@@ -81,7 +108,7 @@ function gameTrack() {
     if (i === game.gamePattern.length) {
       clearInterval(myInterval)
     }
-  }, 500);
+  }, 100);
 }
 
 //generate random number for pattern
@@ -97,7 +124,7 @@ function addColor(id, shape) {
   addSound(id);
   setTimeout(function () {
     shapes.classList.remove(shape + '-active');
-  }, 300)
+  }, 100)
 }
 
 // play audio
@@ -126,19 +153,23 @@ function displayError() {
       game.userPattern = [];
       count = 0;
     }
-  }, 300)
+  }, 100)
 }
 
 function displayWinner() {
   level.innerText = 'Win';
 }
 
-// function resetGame() {
-//   game.gamePattern = [];
-//   game.userPattern = [];
-//   game.level = 0;
-//   level.innerText = 0;
-// }
+function resetGame() {
+  game.gamePattern = [];
+  game.userPattern = [];
+  game.level = 0;
+  level.innerText = game.level;
+  document.removeEventListener('click', handleClick);
+}
+
+
+
 
 
 })
