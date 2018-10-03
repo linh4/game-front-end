@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     winnerLevel: 20
   }
 
-  const container = document.getElementsByClassName('container')[0]
+
   const start = document.querySelector('#start');
   const fast = document.querySelector('#fast');
   const level = document.querySelector('.level');
@@ -25,10 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   level.innerText = 0;
   let second;
   let interval;
-  let speed = 1000;
+  let speed = 900;
 
   clock.innerText = "00: 60";
-
   quitBtn.disabled= true;
 
   // post players
@@ -38,13 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const instructionBox = document.querySelector('#instruction-box'),
       exitButton = instructionBox.querySelector('i')
-  
+
   exitButton.addEventListener('click', (evt) => closeInstructionWindow(evt))
 
   function closeInstructionWindow(evt){
       // debugger
       evt.target.parentElement.parentElement.parentElement.style.display = 'none'
-      alert('Those were the instructions, Good luck!!')
       container.style.opacity = 1
   }
 
@@ -71,11 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-
-  cancelButton.addEventListener('click', (e) => {
-    userForm.style.display = 'none'
-    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
-
   // quit the game
   quitBtn.addEventListener('click', () =>{
     clock.innerText = "That's it?"
@@ -99,40 +92,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // start the game
   start.addEventListener('click', () => {
+    quitBtn.disabled = false;
+    boardBtn.disabled = true;
     resetGame();
     resetTimer();
     gameTrack();
     document.removeEventListener('click', handleClick);
     window.removeEventListener("keyup", (e) => buttonPress(e))
     document.addEventListener('click', handleClick);
-
     window.addEventListener("keyup", (e) => buttonPress(e))
   })
-
-  // window.addEventListener("keyup", (e) => buttonPress(e))
 
   function buttonPress(event){
     // console.log(event.which) // *KEEP: for debugging purposes
     if (event.which == 87 || event.which == 38 || event.which == 73) {
-      // alert('square')
-      // e.dataset.shape = 'square'
-      // game.id = 0
       buttonInput(0, 'square')
     } else if (event.which == 40 || event.which == 83 || event.which == 75) {
-      // alert('pacman')
-      // e.dataset.shape = 'pacman'
-      // game.id = 3
       buttonInput(3, 'pacman')
     } else if (event.which == 37 || event.which == 65 || event.which == 74) {
-      // alert('triangle')
-      // e.dataset.shape = 'triangle'
-      // game.id = 1
       buttonInput(1, 'triangle')
     } else if (event.which == 39 || event.which == 68 || event.which == 76) {
-      // alert('circle')
-      // e.dataset.shape = 'circle'
-      // game.id = 2
-      buttonInput(2, 'cirlce')
+      buttonInput(2, 'circle')
     }
   }
 
@@ -149,15 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //     userTrack();
   //   }
   // }
-
-  Adapter.getPlayers()
-  .then(res => {
-    console.log(res)
-
-    boardBtn.disabled= true;
-    quitBtn.disabled= false;
-
-  })
 
   function resetTimer(){
     second = 60;
@@ -207,6 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // check the end of pattern
     else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
+      (speed > 50) ? (speed -= 50) : speed = 50;
+      console.log(speed);
       game.level++;
       game.error = false;
       game.userPattern = [];
@@ -244,10 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(myInterval);
       }
     }, speed);
-
-    (speed > 50) ? (speed -= 50) : speed = 50;
-    console.log(speed);
-
   }
 
   //generate random number for pattern
