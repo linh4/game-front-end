@@ -6,6 +6,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pop/pop.css">
 </head>
 <body>
   <div class="container">
@@ -49,9 +50,19 @@
 
     <br>
 
+    <div>
+      <button id="quit">Quit</button>
+    </div>
+
+    <br>
+
     <div id="timer"></div>
 
-    <button id="btn" type="button">Leader Board</button>
+    <div id="running">
+      <img src="pop/popup.png">
+    </div>
+
+    <button id="boardBtn" type="button">Leader Board</button>
 
     <table id="table" style="display: none">
       <thead></thead>
@@ -61,6 +72,7 @@
     </div>
   </div>
   <script type="text/javascript" src="src/adapter.js"></script>
+  <script type="text/javascript" src="src/pop.js"></script>
   <script type="text/javascript" src="src/player.js"></script>
   <script type="text/javascript" src="src/index.js"></script>
 
