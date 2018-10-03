@@ -1,12 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementsByClassName('container')[0]
-
-  Adapter.getPlayers()
-  .then(res => {
-    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
-    console.log(res)
-  })
-
   const game = {
     gamePattern: [],
     userPattern: [],
@@ -15,38 +7,72 @@ document.addEventListener('DOMContentLoaded', () => {
     shape: 0,
     error: false,
     sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
-    winnerLevel: 10
+    winnerLevel: 20
   }
 
+  const container = document.getElementsByClassName('container')[0]
   const start = document.querySelector('#start');
-  const level = document.querySelector('.level')
-  const clock = document.querySelector("#timer")
-  const userForm = document.querySelector('#name-box') //*NOTE: need this for form stuff
+  const fast = document.querySelector('#fast');
+  const level = document.querySelector('.level');
+  const clock = document.querySelector("#timer");
+  const userForm = document.querySelector('#name-box');
+  const btn = document.querySelector('#btn');
+  const table = document.querySelector('#table');
   const cancelButton = userForm.querySelectorAll('.btn-warning')[0]
   level.innerText = 0;
   let second;
   let interval;
+  let speed = 1000;
+  const form = userForm.querySelector('form')
 
-  cancelButton.addEventListener('click', (e) => {
-    // debugger
-    userForm.style.display = 'none'
-    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
-    // alert(e)
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let name = e.target.name.value;
+    e.target.name.value = "";
+    e.target.parentElement.parentElement.style.display = 'none';
+    return Adapter.postPlayers(name, form.dataset.level)
+  });
+
+  // toggle the scoreBoard
+  btn.addEventListener('click', () => {
+    if (table.style.display === "none") {
+      Player.tableScores()
+      table.style.display = "block";
+    } else {
+      table.style.display = "none";
+    }
   })
 
+  cancelButton.addEventListener('click', (e) => {
+    userForm.style.display = 'none'
+    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+  })
 
   // start the game
   start.addEventListener('click', () => {
+    table.style.display = "none"
     game.level = 0;
     game.level++;
     game.userPattern = [];
     game.gamePattern = [];
     resetTimer();
-    startTimer();
     gameTrack();
     document.removeEventListener('click', handleClick);
     document.addEventListener('click', handleClick);
   })
+
+  Adapter.getPlayers()
+  .then(res => {
+    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+    console.log(res)
+  })
+
+  function resetTimer(){
+    second = 60;
+    clearInterval(interval);
+    clock.innerText = "00: " + second;
+    startTimer();
+  }
 
   function startTimer() {
     userForm.style.display = 'none'
@@ -54,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       second--
       if (second < 0) {
         clearInterval(interval);
-        clock.innerText = 'You Lose!'
+        clock.innerText = 'You Lose!!!!';
         let timeOut = setTimeout(() => {
           userForm.style.display = 'block'
           container.style.opacity = .3 //*NOTE: need this for the fade-in and out
@@ -68,18 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  function resetTimer(){
-        second = 2;
-        clearInterval(interval);
-        clock.innerText = "00: 60";
-    }
-
   function handleClick(e){
     if (e.target.classList[1]){
       game.id = parseInt(e.target.id);
       game.shape = e.target.classList[0];
       userTrack();
-      }
+    }
   }
 
   // user Pattern
@@ -93,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
       game.userPattern = [];
       gameTrack();
     }
-
     // check the end of pattern
     else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
       game.level++;
@@ -101,14 +120,18 @@ document.addEventListener('DOMContentLoaded', () => {
       game.userPattern = [];
       gameTrack();
     }
-
     // check winner
     if (game.userPattern.length === game.winnerLevel) {
       displayWinner();
-      // resetGame();
+      let timeOut = setTimeout(() => {
+        userForm.style.display = 'block';
+        Player.getUserName(game.level);
+      }, 1000)
+      document.removeEventListener('click', handleClick);
+      clock.innerText = '00: ' + (second < 10 ? "0" + second : second);;
+      clearInterval(interval);
     }
   }
-
 
   // game pattern
   function gameTrack() {
@@ -121,15 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     let i = 0;
     let myInterval = setInterval(function () {
-      // debugger
       game.id = game.gamePattern[i];
       game.shape = document.getElementById(game.id).classList[0];
       addColor(game.id, game.shape);
       i++;
       if (i === game.gamePattern.length) {
-        clearInterval(myInterval)
+        clearInterval(myInterval);
       }
-    }, 100);
+    }, speed);
+
+    speed = speed - (game.level * 200) > 200 ? speed -(game.level * 200): 200;
   }
 
   //generate random number for pattern
@@ -188,9 +212,5 @@ document.addEventListener('DOMContentLoaded', () => {
     level.innerText = game.level;
     document.removeEventListener('click', handleClick);
   }
-
-
-
-
 
 })

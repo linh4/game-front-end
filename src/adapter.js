@@ -1,4 +1,5 @@
-const playersURL = 'http://localhost:3000/players'
+const playersURL = 'http://localhost:3000/players/make'
+const playersAllURL = 'http://localhost:3000/players'
 const scoreboard = 'http://localhost:3000/scoreboard'
 const gameURL = 'http://localhost:3000/games'
 
@@ -6,22 +7,25 @@ class Adapter {
 
 
   static getPlayers() {
-    return fetch(playersURL).then(res => res.json())
+    return fetch(playersAllURL).then(res => res.json())
   }
 
-  static postPlayers(name) {
+  static postPlayers(name, level) {
     return fetch(playersURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
-      body: JSON.stringify({name: name})
+      body: JSON.stringify({
+        name: name,
+        highest_level: level
+      })
     }).then(res => res.json())
   }
 
   static scoreBoard(){
-    return fetch(scoreboard).then(res => res.json()).then(console.log)
+    return fetch(scoreboard).then(res => res.json())
   }
 
   static postGame(id, level) {
@@ -36,6 +40,7 @@ class Adapter {
         highest_level: level
       })
     }).then(res => res.json())
+    .then(console.log)
   }
 
 }
