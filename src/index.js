@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   exitButton.addEventListener('click', (evt) => closeInstructionWindow(evt))
 
   function closeInstructionWindow(evt){
-      evt.target.parentElement.parentElement.parentElement.style.display = 'none'
-      container.style.opacity = 1
+    evt.target.parentElement.parentElement.parentElement.style.display = 'none'
+    container.style.opacity = 1
   }
 
   form.addEventListener('submit', (e) => {
@@ -104,12 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', handleClick);
     game.keyboardWorking = true
   })
-
   document.addEventListener("keyup", (e) => buttonPress(e))
 
   function buttonPress(event){
     // console.log(event.which) // *KEEP: for debugging purposes
-    if (game.keyboardWorking){
+    if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
         buttonInput(0, 'square')
       } else if (event.which == 40 || event.which == 83 || event.which == 75) {
@@ -166,7 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleClick(e){
-    if (e.target.classList[1]){
+    if (e.target.classList[1] && !game.error){
+      console.log('clicking button')
       game.id = parseInt(e.target.id);
       game.shape = e.target.classList[0];
       userTrack();
@@ -182,7 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
       game.error = true;
       displayError();
       game.userPattern = [];
+
+      setTimeout(() => {
       gameTrack();
+      }, 1000)
     }
     // check the end of pattern
     else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
@@ -281,6 +284,5 @@ document.addEventListener('DOMContentLoaded', () => {
     speed = 600;
   }
 
-  Pop.getPop();
-
+  // Pop.getPop();
 })
