@@ -16,13 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const level = document.querySelector('.level');
   const clock = document.querySelector("#timer");
   const userForm = document.querySelector('#name-box');
-  const btn = document.querySelector('#btn');
+  const boardBtn = document.querySelector('#boardBtn');
+  const quitBtn = document.querySelector('#quit');
+  const container = document.getElementsByClassName('container')[0]
+  const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
   const table = document.querySelector('#table');
   const cancelButton = userForm.querySelectorAll('.btn-warning')[0]
   level.innerText = 0;
   let second;
   let interval;
   let speed = 1000;
+
+  clock.innerText = "00: 60";
+
+  quitBtn.disabled= true;
+
+  // post players
   const form = userForm.querySelector('form')
 
   Instructions.getInstructions()
@@ -44,11 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let name = e.target.name.value;
     e.target.name.value = "";
     e.target.parentElement.parentElement.style.display = 'none';
+    resetGame();
+    level.innerText = 0;
+    boardBtn.disabled= false;
+    level.innerText = 0;
+    clock.innerText = "-- --"
     return Adapter.postPlayers(name, form.dataset.level)
   });
 
   // toggle the scoreBoard
-  btn.addEventListener('click', () => {
+  boardBtn.addEventListener('click', () => {
     if (table.style.display === "none") {
       Player.tableScores()
       table.style.display = "block";
@@ -57,23 +71,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+
   cancelButton.addEventListener('click', (e) => {
     userForm.style.display = 'none'
     container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+
+  // quit the game
+  quitBtn.addEventListener('click', () =>{
+    clock.innerText = "That's it?"
+    clearInterval(interval);
+    let timeOut = setTimeout(() => {
+      userForm.style.display = 'block';
+      Player.getUserName(game.level)
+    }, 500)
+    document.removeEventListener('click', handleClick);
+    boardBtn.disabled= false;
+  })
+
+  cancelBtn.addEventListener('click', () => {
+    userForm.style.display = 'none'
+    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+    resetGame();
+    level.innerText = 0;
+    clock.innerText = "-- --"
+
   })
 
   // start the game
   start.addEventListener('click', () => {
-    table.style.display = "none"
-    game.level = 0;
-    game.level++;
-    game.userPattern = [];
-    game.gamePattern = [];
+    resetGame();
     resetTimer();
     gameTrack();
     document.removeEventListener('click', handleClick);
     window.removeEventListener("keyup", (e) => buttonPress(e))
     document.addEventListener('click', handleClick);
+
     window.addEventListener("keyup", (e) => buttonPress(e))
   })
 
@@ -121,6 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
   Adapter.getPlayers()
   .then(res => {
     console.log(res)
+
+    boardBtn.disabled= true;
+    quitBtn.disabled= false;
+
   })
 
   function resetTimer(){
@@ -178,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // check winner
     if (game.userPattern.length === game.winnerLevel) {
-      displayWinner();
+      level.innerText = 'Win';
       let timeOut = setTimeout(() => {
         userForm.style.display = 'block';
         Player.getUserName(game.level);
@@ -209,7 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, speed);
 
-    speed = speed - (game.level * 200) > 200 ? speed -(game.level * 200): 200;
+    (speed > 50) ? (speed -= 50) : speed = 50;
+    console.log(speed);
+
   }
 
   //generate random number for pattern
@@ -257,16 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100)
   }
 
-  function displayWinner() {
-    level.innerText = 'Win';
+  function resetGame() {
+    table.style.display = "none";
+    game.level = 0;
+    game.level++;
+    game.userPattern = [];
+    game.gamePattern = [];
   }
 
-  function resetGame() {
-    game.gamePattern = [];
-    game.userPattern = [];
-    game.level = 0;
-    level.innerText = game.level;
-    document.removeEventListener('click', handleClick);
-  }
+  Pop.getPop();
 
 })
