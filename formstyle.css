@@ -12,6 +12,27 @@ body{
   display: none;
 }
 
+#instruction-box{
+  margin: 0 auto;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 60vw;
+  height: 60vh;
+  z-index: 4;
+ 
+  background-color:rgba(221, 221, 221);
+  padding: 10px;
+  border-radius: 15px;
+}
+
+/* exit button in instructions */
+/* i.fa-times-circle{
+  color: red;
+} */
+
 #name-box{
   margin: 0 auto;
   position: absolute;

@@ -25,6 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let speed = 1000;
   const form = userForm.querySelector('form')
 
+  Instructions.getInstructions()
+
+  const instructionBox = document.querySelector('#instruction-box'),
+      exitButton = instructionBox.querySelector('i')
+  
+  exitButton.addEventListener('click', (evt) => closeInstructionWindow(evt))
+
+  function closeInstructionWindow(evt){
+      // debugger
+      evt.target.parentElement.parentElement.parentElement.style.display = 'none'
+      alert('Those were the instructions, Good luck!!')
+      container.style.opacity = 1
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let name = e.target.name.value;
@@ -58,12 +72,54 @@ document.addEventListener('DOMContentLoaded', () => {
     resetTimer();
     gameTrack();
     document.removeEventListener('click', handleClick);
+    window.removeEventListener("keyup", (e) => buttonPress(e))
     document.addEventListener('click', handleClick);
+    window.addEventListener("keyup", (e) => buttonPress(e))
   })
+
+  // window.addEventListener("keyup", (e) => buttonPress(e))
+
+  function buttonPress(event){
+    // console.log(event.which) // *KEEP: for debugging purposes
+    if (event.which == 87 || event.which == 38 || event.which == 73) {
+      // alert('square')
+      // e.dataset.shape = 'square'
+      // game.id = 0
+      buttonInput(0, 'square')
+    } else if (event.which == 40 || event.which == 83 || event.which == 75) {
+      // alert('pacman')
+      // e.dataset.shape = 'pacman'
+      // game.id = 3
+      buttonInput(3, 'pacman')
+    } else if (event.which == 37 || event.which == 65 || event.which == 74) {
+      // alert('triangle')
+      // e.dataset.shape = 'triangle'
+      // game.id = 1
+      buttonInput(1, 'triangle')
+    } else if (event.which == 39 || event.which == 68 || event.which == 76) {
+      // alert('circle')
+      // e.dataset.shape = 'circle'
+      // game.id = 2
+      buttonInput(2, 'cirlce')
+    }
+  }
+
+  function buttonInput(gameId, gameShape){
+    game.id = gameId
+    game.shape = gameShape
+    userTrack()
+  }
+
+  // function handleClick(e){
+  //   if (e.target.classList[1]){
+  //     game.id = parseInt(e.target.id);
+  //     game.shape = e.target.classList[0];
+  //     userTrack();
+  //   }
+  // }
 
   Adapter.getPlayers()
   .then(res => {
-    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
     console.log(res)
   })
 
