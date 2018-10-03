@@ -1,0 +1,42 @@
+:root {
+  --width-form: 22vw;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+#name-box{
+  margin: 0 auto;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: var(--width-form);
+  min-height: 15vh;
+  z-index: 3;
+ 
+  background-color:rgba(221, 221, 221);
+  padding: 10px;
+  border-radius: 15px;
+}
+#name-box .btn{
+  width: 40%;
+  font-size: 1em;
+}
+div.btn-group{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#name-box .form-group{
+  margin: 0 auto;
+  /* width: 30%; */
+}

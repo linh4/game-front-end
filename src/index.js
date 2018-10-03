@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+  const container = document.getElementsByClassName('container')[0]
 
   Adapter.getPlayers()
-  .then(res => console.log(res))
-
-
+  .then(res => {
+    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+    console.log(res)
+  })
 
   const game = {
     gamePattern: [],
@@ -20,11 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('#start');
   const level = document.querySelector('.level')
   const clock = document.querySelector("#timer")
-  const userForm = document.querySelector('#name-box')
+  const userForm = document.querySelector('#name-box') //*NOTE: need this for form stuff
+  const cancelButton = userForm.querySelectorAll('.btn-warning')[0]
   level.innerText = 0;
   let second;
   let interval;
 
+  cancelButton.addEventListener('click', (e) => {
+    // debugger
+    userForm.style.display = 'none'
+    container.style.opacity = 1 //*NOTE: need this for the fade-in and out
+    // alert(e)
+  })
 
 
   // start the game
@@ -49,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clock.innerText = 'You Lose!'
         let timeOut = setTimeout(() => {
           userForm.style.display = 'block'
+          container.style.opacity = .3 //*NOTE: need this for the fade-in and out
           Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
