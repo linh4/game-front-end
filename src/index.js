@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let second;
   let interval;
   let speed = 600;
+  let myInterval;
 
   clock.innerText = "00: 60";
   quitBtn.disabled= true;
@@ -53,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Adapter.postPlayers(name, form.dataset.level)
     document.removeEventListener('click', handleClick);
     game.keyboardWorking = false
+    quitBtn.disabled= true;
+    start.disabled = false;
     resetGame();
     container.style.opacity = 1
   });
@@ -69,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // quit the game
   quitBtn.addEventListener('click', () =>{
+    start.disabled = true;
     game.keyboardWorking = false;
-
     clock.innerText = "That's it?"
     clearInterval(interval);
     let timeOut = setTimeout(() => {
@@ -80,17 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.removeEventListener('click', handleClick);
     game.keyboardWorking = false
     boardBtn.disabled= false;
+    quitBtn.disabled = true;
   })
 
   cancelBtn.addEventListener('click', () => {
-    game.keyboardWorking = false
     userForm.style.display = 'none'
     container.style.opacity = 1 //*NOTE: need this for the fade-in and out
     resetGame();
     level.innerText = 0;
     clock.innerText = "-- --"
     document.removeEventListener('click', handleClick);
-    game.keyboardWorking = false
+    game.keyboardWorking = false;
+    boardBtn.disabled = false;
+    quitBtn.disabled= true;
+    start.disabled = false;
   })
 
   // start the game
@@ -109,7 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buttonPress(event){
     // console.log(event.which) // *KEEP: for debugging purposes
-    if (game.keyboardWorking){
+    // console.log(game.error);
+    event.preventDefault();
+    if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
         buttonInput(0, 'square')
       } else if (event.which == 40 || event.which == 83 || event.which == 75) {
@@ -128,14 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     game.shape = gameShape
     userTrack()
   }
-
-  // function handleClick(e){
-  //   if (e.target.classList[1]){
-  //     game.id = parseInt(e.target.id);
-  //     game.shape = e.target.classList[0];
-  //     userTrack();
-  //   }
-  // }
 
   function resetTimer(){
     second = 60;
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleClick(e){
-    if (e.target.classList[1]){
+    if (e.target.classList[1] && !game.error){
       game.id = parseInt(e.target.id);
       game.shape = e.target.classList[0];
       userTrack();
@@ -181,18 +181,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // check the same pattern
     if (!checkSamePattern()) {
       game.error = true;
+      game.keyboardWorking = false;
       displayError();
       game.userPattern = [];
-      gameTrack();
+      setTimeout(() => {
+        console.log("no");
+        clearInterval(myInterval);
+        gameTrack();
+        game.keyboardWorking = true;
+      }, 1000)
     }
     // check the end of pattern
-    else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel) {
-      (speed > 50) ? (speed -= 50) : speed = 50;
-      console.log(speed);
+    else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel && checkSamePattern()) {
+      game.keyboardWorking = false;
+      (speed > 100) ? (speed -= 15) : speed = 100;
       game.level++;
       game.error = false;
       game.userPattern = [];
-      gameTrack();
+      setTimeout(() => {
+        console.log("next");
+        clearInterval(myInterval)
+        gameTrack();
+        game.keyboardWorking = true;
+      }, 1000)
     }
     // check winner
     if (game.userPattern.length === game.winnerLevel) {
@@ -210,14 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // game pattern
   function gameTrack() {
     level.innerText = game.level;
-    if (!game.error) {
-      randomNum();
-    }
-    else {
-      game.error = false;
-    }
+    !game.error ? randomNum() : game.error = false;
     let i = 0;
-    let myInterval = setInterval(function () {
+    myInterval = setInterval(function () {
       game.id = game.gamePattern[i];
       game.shape = document.getElementById(game.id).classList[0];
       addColor(game.id, game.shape);
@@ -270,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         game.userPattern = [];
         count = 0;
       }
-    }, 100)
+    }, 500)
   }
 
   function resetGame() {
