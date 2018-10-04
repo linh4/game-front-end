@@ -60,10 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // toggle the scoreBoard
   boardBtn.addEventListener('click', () => {
     if (table.style.display === "none") {
-      Player.tableScores()
+      // Player.tableScores()
+      Player.tableDivScores()
       table.style.display = "block";
     } else {
       table.style.display = "none";
+      Player.emptyScores()
     }
   })
 
@@ -107,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("keyup", (e) => buttonPress(e))
 
   function buttonPress(event){
-    // console.log(event.which) // *KEEP: for debugging purposes
+    console.log(event.which) // *KEEP: for debugging purposes
     if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
         buttonInput(0, 'square')
@@ -118,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (event.which == 39 || event.which == 68 || event.which == 76) {
         buttonInput(2, 'circle')
       }
+    } else if (event.which == 32/*Space Bar -> for testing purposes only*/){
+      Player.tableDivScores(event)
+      // const tableDiv = document.getElementById('')
     }
 
   }
@@ -127,14 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     game.shape = gameShape
     userTrack()
   }
-
-  // function handleClick(e){
-  //   if (e.target.classList[1]){
-  //     game.id = parseInt(e.target.id);
-  //     game.shape = e.target.classList[0];
-  //     userTrack();
-  //   }
-  // }
 
   function resetTimer(){
     second = 60;
