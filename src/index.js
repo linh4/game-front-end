@@ -120,11 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (event.which == 39 || event.which == 68 || event.which == 76) {
         buttonInput(2, 'circle')
       }
-    } else if (event.which == 32/*Space Bar -> for testing purposes only*/){
-      Player.tableDivScores(event)
-      // const tableDiv = document.getElementById('')
     }
-
   }
 
   function buttonInput(gameId, gameShape){
