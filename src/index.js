@@ -22,10 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
   const table = document.querySelector('#table');
   const form = userForm.querySelector('form')
+
   level.innerText = 0;
   let second;
   let interval;
-  let speed = 600;
+  let speed = 500;
   let myInterval;
 
   clock.innerText = "00: 60";
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userForm.style.display = 'none'
     interval = setInterval(()=>{
       second--
-      popup();
+      Pop.popup(second);
       if (second < 0) {
         game.keyboardWorking = false;
         clearInterval(interval);
@@ -286,21 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
     game.userPattern = [];
     game.gamePattern = [];
     speed = 600;
-  }
-
-  // Pop.getPop();
-
-  const image = document.querySelector('#image');
-  const audio = new Audio('pop/pop.wav')
-  function popup() {
-    let playImage = setInterval(() => {
-      image.style.display = "none";
-      if (second % 10 === 0) {
-        image.style.display = "block";
-        audio.play();
-      clearInterval(playImage)
-    }
-  }, 2000)
   }
 
 })

@@ -1,15 +1,16 @@
+const image = document.querySelector('#image');
+const audio = new Audio('pop/pop.wav');
+
 class Pop {
+  static popup(second) {
+      let playImage = setTimeout(() => {
+      image.style.display = "none";
+      if (second % 10 === 0) {
+        audio.play();
+        image.style.display = "block";
+        clearInterval(playImage)
+      }
 
-  static getPop() {
-    const image = document.querySelector('#image');
-
-    image.style.display = "block";
-
-    image.addEventListener('click', () => {
-      console.log("k");
-      const audio = new Audio('pop/pop.wav')
-      audio.play();
-    })
-
+    }, 2000)
   }
 }
