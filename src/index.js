@@ -49,14 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.name.value = "";
     e.target.parentElement.parentElement.style.display = 'none';
     level.innerText = 0;
-    boardBtn.disabled= false;
+    game.keyboardWorking = false
     level.innerText = 0;
     clock.innerText = "-- --"
     Adapter.postPlayers(name, form.dataset.level)
     document.removeEventListener('click', handleClick);
-    game.keyboardWorking = false
-    quitBtn.disabled= true;
-    start.disabled = false;
     resetGame();
     container.style.opacity = 1
   });
@@ -73,6 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // quit the game
   quitBtn.addEventListener('click', () =>{
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = ''
     start.disabled = true;
     game.keyboardWorking = false;
     clock.innerText = "That's it?"
@@ -88,6 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   cancelBtn.addEventListener('click', () => {
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = ''
     userForm.style.display = 'none'
     container.style.opacity = 1 //*NOTE: need this for the fade-in and out
     resetGame();
@@ -116,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buttonPress(event){
     // console.log(event.which) // *KEEP: for debugging purposes
-    // console.log(game.error);
     event.preventDefault();
     if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
@@ -129,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonInput(2, 'circle')
       }
     }
-
   }
 
   function buttonInput(gameId, gameShape){
@@ -139,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetTimer(){
-    second = 60;
+    second = 5;
     clearInterval(interval);
     clock.innerText = "00: " + second;
     startTimer();
@@ -147,6 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startTimer() {
     userForm.style.display = 'none'
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = 'rota 5s linear forwards'
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = 'opa 5s steps(1, end) forwards reverse'
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = 'opa 5s steps(1, end) forwards'
+
     interval = setInterval(()=>{
       second--
       Pop.popup(second);
@@ -160,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
           Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
+        start.disabled = true;
+        quitBtn.disabled = true;
+        boardBtn.disabled= true;
+
       }
       else {
         return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
@@ -288,5 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
     game.gamePattern = [];
     speed = 600;
   }
+
 
 })

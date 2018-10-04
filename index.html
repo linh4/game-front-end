@@ -6,11 +6,21 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="formstyle.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/timer.css">
+  <link rel="stylesheet" href="css/formstyle.css">
   <link rel="stylesheet" href="pop/pop.css">
 </head>
 <body>
+
+  <div class="wrapper">
+    <div class="pie spinner"></div>
+    <div class="pie filler">
+    </div>
+    <div class="mask"></div>
+    <div id="timer"></div>
+  </div>
+
 
   <div class="container" >
 
@@ -24,7 +34,7 @@
       <button id="quit">Quit</button>
     </div>
 
-    <div id="timer"></div>
+    <!-- <div id="timer"></div> -->
 
     <div class="row-top">
       <div id="0" class="square clicked"></div>
@@ -86,6 +96,7 @@
 
   <script type="text/javascript" src="src/adapter.js"></script>
   <script type="text/javascript" src="src/pop.js"></script>
+  <script type="text/javascript" src="src/timer.js"></script>
   <!-- <script type="text/javascript" src="src/instructions.js"></script> -->
   <script type="text/javascript" src="src/player.js"></script>
   <script type="text/javascript" src="src/index.js"></script>
