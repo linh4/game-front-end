@@ -30,16 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
   clock.innerText = "00: 60";
   quitBtn.disabled= true;
 
-  Instructions.getInstructions()
-  const instructionBox = document.querySelector('#instruction-box'),
-      exitButton = instructionBox.querySelector('i')
-
-  exitButton.addEventListener('click', (evt) => closeInstructionWindow(evt))
-
-  function closeInstructionWindow(evt){
-      evt.target.parentElement.parentElement.parentElement.style.display = 'none'
-      container.style.opacity = 1
-  }
+  // Instructions.getInstructions()
+  // const instructionBox = document.querySelector('#instruction-box'),
+  //     exitButton = instructionBox.querySelector('i')
+  //
+  // exitButton.addEventListener('click', (evt) => closeInstructionWindow(evt))
+  //
+  // function closeInstructionWindow(evt){
+  //     evt.target.parentElement.parentElement.parentElement.style.display = 'none'
+  //     container.style.opacity = 1
+  // }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -148,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userForm.style.display = 'none'
     interval = setInterval(()=>{
       second--
+      popup();
       if (second < 0) {
         game.keyboardWorking = false;
         clearInterval(interval);
@@ -281,6 +282,19 @@ document.addEventListener('DOMContentLoaded', () => {
     speed = 600;
   }
 
-  Pop.getPop();
+  // Pop.getPop();
+
+  const image = document.querySelector('#image');
+  const audio = new Audio('pop/pop.wav')
+  function popup() {
+    let playImage = setInterval(() => {
+      image.style.display = "none";
+      if (second % 10 === 0) {
+        image.style.display = "block";
+        audio.play();
+      clearInterval(playImage)
+    }
+  }, 2000)
+  }
 
 })
