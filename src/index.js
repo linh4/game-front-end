@@ -22,10 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
   const table = document.querySelector('#table');
   const form = userForm.querySelector('form')
+
   level.innerText = 0;
   let second;
   let interval;
-  let speed = 600;
+  let speed = 500;
   let myInterval;
 
   clock.innerText = "00: 60";
@@ -48,16 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.name.value = "";
     e.target.parentElement.parentElement.style.display = 'none';
     level.innerText = 0;
-    boardBtn.disabled= false;
+    game.keyboardWorking = false
     level.innerText = 0;
     clock.innerText = "-- --"
     Adapter.postPlayers(name, form.dataset.level)
     document.removeEventListener('click', handleClick);
-    game.keyboardWorking = false
-    quitBtn.disabled= true;
-    start.disabled = false;
     resetGame();
-    container.style.opacity = 1
+    container.style.opacity = 1;
   });
 
   // toggle the scoreBoard
@@ -72,6 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // quit the game
   quitBtn.addEventListener('click', () =>{
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = ''
     start.disabled = true;
     game.keyboardWorking = false;
     clock.innerText = "That's it?"
@@ -84,9 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     game.keyboardWorking = false
     boardBtn.disabled= false;
     quitBtn.disabled = true;
+    container.style.opacity = 0.3;
   })
 
   cancelBtn.addEventListener('click', () => {
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = ''
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = ''
     userForm.style.display = 'none'
     container.style.opacity = 1 //*NOTE: need this for the fade-in and out
     resetGame();
@@ -115,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buttonPress(event){
     // console.log(event.which) // *KEEP: for debugging purposes
-    // console.log(game.error);
     event.preventDefault();
     if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
@@ -128,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonInput(2, 'circle')
       }
     }
-
   }
 
   function buttonInput(gameId, gameShape){
@@ -146,19 +161,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startTimer() {
     userForm.style.display = 'none'
+    document.querySelector('.wrapper .spinner')
+      .style
+      .animation = 'rota 61s linear forwards'
+    document.querySelector('.wrapper .filler')
+      .style
+      .animation = 'opa 60s steps(1, end) forwards reverse'
+    document.querySelector('.wrapper .mask')
+      .style
+      .animation = 'opa 60s steps(1, end) forwards'
+
     interval = setInterval(()=>{
       second--
-      popup();
-      if (second < 0) {
-        game.keyboardWorking = false;
+      Pop.popup(second);
+      if (second <= 0) {
         clearInterval(interval);
-        clock.innerText = 'You Lose!!!!';
+        game.keyboardWorking = false;
+        clock.innerText = 'Time\'s Up!!!!';
         let timeOut = setTimeout(() => {
-          userForm.style.display = 'block'
           container.style.opacity = .3 //*NOTE: need this for the fade-in and out
+          userForm.style.display = 'block'
           Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
+        start.disabled = true;
+        quitBtn.disabled = true;
+        boardBtn.disabled= true;
       }
       else {
         return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
@@ -185,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
       displayError();
       game.userPattern = [];
       setTimeout(() => {
-        console.log("no");
         clearInterval(myInterval);
         gameTrack();
         game.keyboardWorking = true;
@@ -193,13 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // check the end of pattern
     else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel && checkSamePattern()) {
+      level.innerText = 'Next';
       game.keyboardWorking = false;
-      (speed > 100) ? (speed -= 15) : speed = 100;
+      (speed > 100) ? (speed -= 20) : speed = 100;
       game.level++;
       game.error = false;
       game.userPattern = [];
       setTimeout(() => {
-        console.log("next");
         clearInterval(myInterval)
         gameTrack();
         game.keyboardWorking = true;
@@ -247,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addSound(id);
     setTimeout(function () {
       shapes.classList.remove(shape + '-active');
-    }, 100)
+    }, 200)
   }
 
   // play audio
@@ -268,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayError() {
     let count = 0;
     let myError = setInterval(() => {
-      level.innerText = '!!!';
+      level.innerText = 'Again';
       count++;
       if (count === 2) {
         level.innerText = game.level;
@@ -285,22 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     game.level++;
     game.userPattern = [];
     game.gamePattern = [];
-    speed = 600;
+    speed = 500;
   }
 
-  // Pop.getPop();
-
-  const image = document.querySelector('#image');
-  const audio = new Audio('pop/pop.wav')
-  function popup() {
-    let playImage = setInterval(() => {
-      image.style.display = "none";
-      if (second % 10 === 0) {
-        image.style.display = "block";
-        audio.play();
-      clearInterval(playImage)
-    }
-  }, 2000)
-  }
 
 })
