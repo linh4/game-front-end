@@ -1,10 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 .container {
-  /* margin-top: 100px; */
+  margin-top: 10px;
+  padding: 0;
+  /* justify-content: space-between; */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  color: #fff;
+  font-size: 3em;
+}
+
+.row {
+  width: 100%;
+  margin-top: 0;
+}
+
+.col-md-4 {
+  /* border: 1px solid #333; */
+  /* width: 100px; */
+  /* width: 90%; */
+  /* height: 100vh; */
+  box-shadow: 10px 0 5px -2px #888;
+}
+
+.col-md-7 {
+  padding: 0 10px;
 }
 
 .row-top {
   display: flex;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .row-middle {
@@ -12,7 +41,7 @@
   justify-content: space-around;
   align-items: center;
   margin: 80px auto;
-  padding: 0 150px;
+  padding: 0;
 }
 
 .row-bottom {
@@ -37,9 +66,6 @@
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	border-bottom: 100px solid #91c13e;
-  display: flex;
-  justify-content: space-around;
-  position: relative;
 }
 
 .circle {
@@ -59,29 +85,35 @@
 }
 
 
-.level,
-#timer {
-  font-size: 3em;
+.level {
+  font-size: 60px;
   color: white;
+  text-align: center;
+  width: 100px;
 }
 
 
 
 .square-active {
-  background-color: red;
+  background-color: #f48890;
+  transform: scale(0.8);
 }
 
+
 .triangle-active {
-  border-bottom: 100px solid green;
+  border-bottom: 100px solid #b2d377;
+  transform: scale(0.8);
 }
 
 .circle-active {
-  background-color: orange;
+  background-color: #fef196;
+  transform: scale(0.8);
 }
 
 .pacman-active {
-  border: 60px solid blue;
+  border: 60px solid #85c9ee;
   border-right-color: transparent;
+  transform: scale(0.8);
 }
 
 #table {
@@ -90,7 +122,105 @@
   font-size: 2em;
 }
 
-/* #timer {
-  text-align: center;
-  margin-bottom: 50px;
+@keyframes shake {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake {
+  animation-name: shake;
+}
+
+
+.button {
+    line-height: 50px;
+    height: 50px;
+    text-align: center;
+    width: 200px;
+    cursor: pointer;
+    background-color: #151425;
+    font-size: 20px;
+}
+
+#start {
+  margin-bottom: 20px;
+}
+
+#start,
+#quit,
+#boardBtn {
+    color: #FFF;
+    transition: all 0.5s;
+    position: relative;
+}
+#start span,
+#quit span,
+#boardBtn span {
+    z-index: 2;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#start::before,
+#quit::before,
+#boardBtn::before {
+    text-align: center;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: all 0.5s;
+    border: 1px solid rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.1);
+}
+#start::after,
+#quit::after,
+#boardBtn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: all 0.5s;
+    border: 1px solid rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.1);
+}
+#start:hover::before,
+#quit:hover::before,
+#boardBtn:hover::before {
+  transform: rotate(-45deg);
+  background-color: rgba(255,255,255,0);
+}
+#start:hover::after,
+#quit:hover::after,
+#boardBtn:hover::after {
+  transform: rotate(45deg);
+  background-color: rgba(255,255,255,0);
+}
+/* #start:focus {
+  text-decoration: none;
+  outline: none;
 } */

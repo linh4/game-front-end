@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Adapter.postPlayers(name, form.dataset.level)
     document.removeEventListener('click', handleClick);
     resetGame();
-    container.style.opacity = 1
+    container.style.opacity = 1;
   });
 
   // toggle the scoreBoard
@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     game.keyboardWorking = false
     boardBtn.disabled= false;
     quitBtn.disabled = true;
+    container.style.opacity = 0.3;
   })
 
   cancelBtn.addEventListener('click', () => {
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetTimer(){
-    second = 5;
+    second = 60;
     clearInterval(interval);
     clock.innerText = "00: " + second;
     startTimer();
@@ -162,31 +163,30 @@ document.addEventListener('DOMContentLoaded', () => {
     userForm.style.display = 'none'
     document.querySelector('.wrapper .spinner')
       .style
-      .animation = 'rota 5s linear forwards'
+      .animation = 'rota 61s linear forwards'
     document.querySelector('.wrapper .filler')
       .style
-      .animation = 'opa 5s steps(1, end) forwards reverse'
+      .animation = 'opa 60s steps(1, end) forwards reverse'
     document.querySelector('.wrapper .mask')
       .style
-      .animation = 'opa 5s steps(1, end) forwards'
+      .animation = 'opa 60s steps(1, end) forwards'
 
     interval = setInterval(()=>{
       second--
       Pop.popup(second);
-      if (second < 0) {
-        game.keyboardWorking = false;
+      if (second <= 0) {
         clearInterval(interval);
-        clock.innerText = 'You Lose!!!!';
+        game.keyboardWorking = false;
+        clock.innerText = 'Time\'s Up!!!!';
         let timeOut = setTimeout(() => {
-          userForm.style.display = 'block'
           container.style.opacity = .3 //*NOTE: need this for the fade-in and out
+          userForm.style.display = 'block'
           Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
         start.disabled = true;
         quitBtn.disabled = true;
         boardBtn.disabled= true;
-
       }
       else {
         return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
       displayError();
       game.userPattern = [];
       setTimeout(() => {
-        console.log("no");
         clearInterval(myInterval);
         gameTrack();
         game.keyboardWorking = true;
@@ -221,13 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // check the end of pattern
     else if (game.userPattern.length === game.gamePattern.length && game.userPattern.length < game.winnerLevel && checkSamePattern()) {
+      level.innerText = 'Next';
       game.keyboardWorking = false;
-      (speed > 100) ? (speed -= 15) : speed = 100;
+      (speed > 100) ? (speed -= 20) : speed = 100;
       game.level++;
       game.error = false;
       game.userPattern = [];
       setTimeout(() => {
-        console.log("next");
         clearInterval(myInterval)
         gameTrack();
         game.keyboardWorking = true;
@@ -275,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addSound(id);
     setTimeout(function () {
       shapes.classList.remove(shape + '-active');
-    }, 100)
+    }, 200)
   }
 
   // play audio
@@ -296,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayError() {
     let count = 0;
     let myError = setInterval(() => {
-      level.innerText = '!!!';
+      level.innerText = 'Again';
       count++;
       if (count === 2) {
         level.innerText = game.level;
@@ -313,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     game.level++;
     game.userPattern = [];
     game.gamePattern = [];
-    speed = 600;
+    speed = 500;
   }
 
 
