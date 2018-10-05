@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quitBtn = document.querySelector('#quit');
   const container = document.getElementsByClassName('container')[0]
   const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
-  const table = document.querySelector('#table');
+  const table = document.querySelector('#leaderboard-table');
   const form = userForm.querySelector('form')
 
   level.innerText = 0;
@@ -61,10 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // toggle the scoreBoard
   boardBtn.addEventListener('click', () => {
     if (table.style.display === "none") {
-      Player.tableScores()
+      Player.tableDivScores()
+      container.style.opacity = .4
       table.style.display = "block";
     } else {
       table.style.display = "none";
+      container.style.opacity = 1
+      Player.emptyScores()
     }
   })
 

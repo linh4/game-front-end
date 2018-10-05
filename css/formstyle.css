@@ -1,5 +1,7 @@
 :root {
   --width-form: 24vw;
+  --center-div: 30px;
+  --left-unit: 9px;
 }
 body{
   background-color: #151425;
@@ -30,11 +32,6 @@ body{
   border-radius: 15px;
 }
 
-/* exit button in instructions */
-/* i.fa-times-circle{
-  color: red;
-} */
-
 #name-box{
   margin: 0 auto;
   position: absolute;
@@ -63,5 +60,67 @@ div.btn-group{
 
 #name-box .form-group{
   margin: 0 auto;
-  /* width: 30%; */
+}
+
+div#leaderboard-table{
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  margin: 0 auto;
+  top: 10%;
+  left: 35%;
+  font-size: 1.5em;
+
+  /* top: 50%; */
+}
+ div.idk{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: inherit;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 50px;
+  background-color: #1f2a44;
+  color: white;
+  margin-top: 8px;
+  width: 500px;
+  transition: transform .3s ease-out;
+}
+ div.idk * {
+  margin-right: 10px;
+  font-size: .9em;
+}
+ div.idk > td {
+  overflow-x: hidden;
+}
+ .place-5, .place-6{
+  margin-left: calc(var(--center-div) - (3 * var(--left-unit)));
+}
+ .place-4, .place-7{
+  margin-left: calc(var(--center-div) - (4.5 * var(--left-unit)));
+}
+.place-8, .place-3{
+  margin-left: calc(var(--center-div) - (6 * var(--left-unit)));
+}
+.place-2, .place-9{
+  margin-left: calc(var(--center-div) - (9 * var(--left-unit)));
+}
+.place-1, .place-10{
+  margin-left: calc(var(--center-div) - (12 * var(--left-unit)));
+}
+ div.idk:hover{
+  transform: translateX(15px) scale(1.1) translateX(5px);
+  background-color: #91c13e;
+  border: grey 1px solid;
+}
+ .fa-trophy{
+  transform-origin: center;
+  transform: scale(1.8);
+  margin-left: 10px;
 }
