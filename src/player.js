@@ -34,8 +34,33 @@ class Player {
       })
   }
 
+  static tableDivScores(e){
+   const tableDiv = document.querySelector('#leaderboard-table')
+   tableDiv.innerHTML = `<i class="fa fa-times-circle" aria-hidden="true" ></i>`
+   // let exit = tableDiv.getElementsByClassName('fa')[0]
+   // exit.addEventListener('click', () => {
+   //   Player.emptyScores()
+   // })
 
+    return Adapter.scoreBoard()
+     .then(games => {
+       // debugger
+       games.forEach((game, idx) => {
+       let addDiv = document.createElement('div')
+       let place = idx + 1
+       addDiv.classList.add(`place-${place}`)
+       addDiv.classList.add(`idk`)
+       addDiv.innerHTML =
+           `<div><i class="fa fa-trophy" aria-hidden="true"></i></div>
+           <tr><td>${place}${place == 1 ? 'st' : place == 2 ? 'nd' : place == 3 ? 'rd' : 'th'}  |   </td>
+           <td>${game.player.name}  |  </td>
+           <td>Level: ${game.highest_level}</td></tr>`
+       tableDiv.append(addDiv)
+       }
+     )}
+   )}
 
-
-
+   static emptyScores(){
+     const tableDiv = document.querySelector('#leaderboard-table')
+   }
 }
