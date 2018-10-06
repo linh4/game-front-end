@@ -1,3 +1,8 @@
+// *NEED: these are for disabling the 'buttons' they're not real buttons so they need this treatment
+let disableStart = false,
+    disableQuit = true,
+    disableBoard = false
+
 document.addEventListener('DOMContentLoaded', () => {
   const game = {
     gamePattern: [],
@@ -26,11 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
   level.innerText = 0;
   let second;
   let interval;
-  let speed = 500;
+  let speed = 300;
   let myInterval;
 
   clock.innerText = "00: 60";
-  quitBtn.disabled= true;
 
   // Instructions.getInstructions()
   // const instructionBox = document.querySelector('#instruction-box'),
@@ -56,45 +60,62 @@ document.addEventListener('DOMContentLoaded', () => {
     document.removeEventListener('click', handleClick);
     resetGame();
     container.style.opacity = 1;
+    disableBoard= false
+    disableQuit = true
+    disableStart = false
   });
 
   // toggle the scoreBoard
-  boardBtn.addEventListener('click', () => {
-    if (table.style.display === "none") {
-      Player.tableDivScores()
-      container.style.opacity = .4
-      table.style.display = "block";
-    } else {
-      table.style.display = "none";
-      container.style.opacity = 1
-      Player.emptyScores()
+  boardBtn.addEventListener('click', boardToggle)
+
+  function boardToggle(e) {
+    // debugger
+    if (!disableBoard) {
+      if (table.style.display === "none") {
+        Player.tableDivScores()
+        container.style.opacity = .4
+        disableStart = true
+        disableQuit = true
+        table.style.display = "block";
+      } else {
+        table.style.display = "none";
+        container.style.opacity = 1
+        Player.emptyScores()
+        disableStart = false
+        disableQuit = true
+      }
     }
+  }
+
+  table.addEventListener('click', (e) => {
+    boardToggle(e)
   })
 
   // quit the game
   quitBtn.addEventListener('click', () =>{
-    document.querySelector('.wrapper .spinner')
-      .style
-      .animation = ''
-    document.querySelector('.wrapper .filler')
-      .style
-      .animation = ''
-    document.querySelector('.wrapper .mask')
-      .style
-      .animation = ''
-    start.disabled = true;
-    game.keyboardWorking = false;
-    clock.innerText = "That's it?"
-    clearInterval(interval);
-    let timeOut = setTimeout(() => {
-      userForm.style.display = 'block';
-      Player.getUserName(game.level)
-    }, 500)
-    document.removeEventListener('click', handleClick);
-    game.keyboardWorking = false
-    boardBtn.disabled= false;
-    quitBtn.disabled = true;
-    container.style.opacity = 0.3;
+    if (!disableQuit){
+      document.querySelector('.wrapper .spinner')
+        .style
+        .animation = ''
+      document.querySelector('.wrapper .filler')
+        .style
+        .animation = ''
+      document.querySelector('.wrapper .mask')
+        .style
+        .animation = ''
+      disableStart = true
+      game.keyboardWorking = false;
+      clock.innerText = "That's it?"
+      clearInterval(interval);
+      let timeOut = setTimeout(() => {
+        userForm.style.display = 'block';
+        Player.getUserName(game.level)
+      }, 500)
+      document.removeEventListener('click', handleClick);
+      game.keyboardWorking = false
+      disableQuit = true
+      container.style.opacity = 0.3;
+    }
   })
 
   cancelBtn.addEventListener('click', () => {
@@ -114,21 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
     clock.innerText = "-- --"
     document.removeEventListener('click', handleClick);
     game.keyboardWorking = false;
-    boardBtn.disabled = false;
-    quitBtn.disabled= true;
-    start.disabled = false;
+    disableBoard = false
+    disableQuit = true
+    disableStart = false
   })
 
   // start the game
   start.addEventListener('click', () => {
-    quitBtn.disabled = false;
-    boardBtn.disabled = true;
-    resetGame();
-    resetTimer();
-    gameTrack();
-    document.removeEventListener('click', handleClick);
-    document.addEventListener('click', handleClick);
-    game.keyboardWorking = true
+    if (!disableStart) {
+      disableQuit = false
+      disableBoard = true
+      resetGame();
+      resetTimer();
+      gameTrack();
+      document.removeEventListener('click', handleClick);
+      document.addEventListener('click', handleClick);
+      game.keyboardWorking = true
+    }
   })
 
   document.addEventListener("keyup", (e) => buttonPress(e))
@@ -179,17 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
       Pop.popup(second);
       if (second <= 0) {
         clearInterval(interval);
-        game.keyboardWorking = false;
         clock.innerText = 'Time\'s Up!!!!';
+        game.keyboardWorking = false;
         let timeOut = setTimeout(() => {
           container.style.opacity = .3 //*NOTE: need this for the fade-in and out
           userForm.style.display = 'block'
           Player.getUserName(game.level)
         }, 1000)
         document.removeEventListener('click', handleClick);
-        start.disabled = true;
-        quitBtn.disabled = true;
-        boardBtn.disabled= true;
+        disableStart = true
+        disableQuit = true
+        disableBoard= true
       }
       else {
         return clock.innerHTML = '00: ' + (second < 10 ? "0" + second : second);
@@ -315,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     game.level++;
     game.userPattern = [];
     game.gamePattern = [];
-    speed = 500;
+    speed = 360;
   }
 
 

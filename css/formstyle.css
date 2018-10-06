@@ -75,6 +75,16 @@ div#leaderboard-table{
 
   /* top: 50%; */
 }
+div#leaderboard-table .fa-times-circle {
+  position: absolute;
+  left: -23%;
+  color: #f05561;
+  transition: all .3s;
+}
+
+div#leaderboard-table .fa-times-circle:hover {
+  transform: scale(1.2);
+}
  div.idk{
   overflow-x: hidden;
   overflow-y: scroll;

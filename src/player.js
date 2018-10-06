@@ -34,16 +34,17 @@ class Player {
       })
   }
 
-  static emptyScores(){
-    const tableDiv = document.querySelector('#leaderboard-table')
-    tableDiv.innerHTML= ""
-  }
-
   static tableDivScores(e){
    const tableDiv = document.querySelector('#leaderboard-table')
+   tableDiv.innerHTML = `<i class="fa fa-times-circle" aria-hidden="true" ></i>`
+   // let exit = tableDiv.getElementsByClassName('fa')[0]
+   // exit.addEventListener('click', () => {
+   //   Player.emptyScores()
+   // })
 
     return Adapter.scoreBoard()
      .then(games => {
+       // debugger
        games.forEach((game, idx) => {
        let addDiv = document.createElement('div')
        let place = idx + 1
@@ -59,4 +60,7 @@ class Player {
      )}
    )}
 
+   static emptyScores(){
+     const tableDiv = document.querySelector('#leaderboard-table')
+   }
 }
