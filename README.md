@@ -6,6 +6,18 @@
 - The more levels user can play, the higher he/she is in the leaderboard.
 - Use mouse clicks, arrow keys, WASD, or IJKL to control the top, left, bottom, and right icons respectively.
 
+### Run the game:
+First, run back-end:
+```
+bundle install
+rake db:migrate
+rails s
+```
+Then, open browser to play the game:
+```
+open index.html
+```
+
 ### Future Plans:
 - User can change timer
 - User can choose different modes
