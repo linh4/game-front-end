@@ -16,7 +16,7 @@ class Instructions{
     let exitButton = innerDiv[0].querySelector('i')
     
     innerDiv[1].innerHTML = `<h1>Instructions: </h1><br>
-                              <p>1. Welcome to Tip-Tap Tone, the call and response game.</p>
+                              <p>1. Welcome to Tip-Tap-Tone, the call and response game.</p>
                               <br><p>2. The computer plays a pattern and you the user have to repeat it back in order.</p>
                               <br><p>3. You have until you quit or time runs out to repeat back the longest chain of consecutive tones and taps possible.</p>
                               <br><p>4. Use mouse clicks, arrow keys, WASD, or IJKL to control the top, left, bottom, and right icons respectively.</p>`
