@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     interval = setInterval(()=>{
       second--
+      console.log(second)
       Pop.popup(second);
       if (second <= 0) {
         clearInterval(interval);
