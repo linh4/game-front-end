@@ -1,7 +1,7 @@
-const playersURL = 'http://localhost:3000/players/make'
-const playersAllURL = 'http://localhost:3000/players'
-const scoreboard = 'http://localhost:3000/scoreboard'
-const gameURL = 'http://localhost:3000/games'
+const playersURL = 'https://tic-tac-tone-api.herokuapp.com/players/make'
+const playersAllURL = 'https://tic-tac-tone-api.herokuapp.com/players'
+const scoreboard = 'https://tic-tac-tone-api.herokuapp.com/scoreboard'
+const gameURL = 'https://tic-tac-tone-api.herokuapp.com/games'
 
 class Adapter {
 
