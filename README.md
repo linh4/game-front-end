@@ -1,5 +1,9 @@
 # Tic-Tap-Tone Game
 
+Tic Tap Tone is a fun game that tests and enhances auditory and visual reaction times while challenging memory skills
+
+<img src="/tic tap tone.png" />
+
 ### Game Rule:
 - The computer plays a pattern and the user have to repeat it back in order.
 - User can play until he/she quits or time runs out.
