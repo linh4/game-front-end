@@ -1,41 +1,39 @@
-// *NEED: these are for disabling the 'buttons' they're not real buttons so they need this treatment
 let disableStart = false,
     disableQuit = true,
     disableBoard = false
 
+const game = {
+  gamePattern: [],
+  userPattern: [],
+  level: 0,
+  id: 0,
+  shape: 0,
+  error: false,
+  sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
+  winnerLevel: 20,
+  keyboardWorking: false
+}
+
+const start = document.querySelector('#start');
+const fast = document.querySelector('#fast');
+const level = document.querySelector('.level');
+const clock = document.querySelector("#timer");
+const userForm = document.querySelector('#name-box');
+const boardBtn = document.querySelector('#boardBtn');
+const quitBtn = document.querySelector('#quit');
+const container = document.getElementsByClassName('container')[0]
+const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
+const table = document.querySelector('#leaderboard-table');
+const form = userForm.querySelector('form')
+
+level.innerText = 0;
+let second;
+let interval;
+let speed = 300;
+let myInterval;
+clock.innerText = "00: 60";
+
 document.addEventListener('DOMContentLoaded', () => {
-  const game = {
-    gamePattern: [],
-    userPattern: [],
-    level: 0,
-    id: 0,
-    shape: 0,
-    error: false,
-    sounds: ['sounds/a.wav', 'sounds/b.wav', 'sounds/c.wav', 'sounds/d.wav'],
-    winnerLevel: 20,
-    keyboardWorking: false
-  }
-
-  const start = document.querySelector('#start');
-  const fast = document.querySelector('#fast');
-  const level = document.querySelector('.level');
-  const clock = document.querySelector("#timer");
-  const userForm = document.querySelector('#name-box');
-  const boardBtn = document.querySelector('#boardBtn');
-  const quitBtn = document.querySelector('#quit');
-  const container = document.getElementsByClassName('container')[0]
-  const cancelBtn = userForm.querySelectorAll('.btn-warning')[0]
-  const table = document.querySelector('#leaderboard-table');
-  const form = userForm.querySelector('form')
-
-  level.innerText = 0;
-  let second;
-  let interval;
-  let speed = 300;
-  let myInterval;
-
-  clock.innerText = "00: 60";
-
   // Instructions.getInstructions()
   // const instructionBox = document.querySelector('#instruction-box'),
   //     exitButton = instructionBox.querySelector('i')
@@ -69,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
   boardBtn.addEventListener('click', boardToggle)
 
   function boardToggle(e) {
-    // debugger
     if (!disableBoard) {
       if (table.style.display === "none") {
         Player.tableDivScores()
@@ -157,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("keyup", (e) => buttonPress(e))
 
   function buttonPress(event){
-    // console.log(event.which) // *KEEP: for debugging purposes
     event.preventDefault();
     if (game.keyboardWorking && !game.error){
       if (event.which == 87 || event.which == 38 || event.which == 73) {
